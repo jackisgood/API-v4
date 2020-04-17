@@ -104,7 +104,7 @@ export class UserService {
     return s;
       }
 
-      async update3leads(param) {
+     async  update3leads(param) {
      
       var start=new Date().getTime();
       var data:any=[];
@@ -130,6 +130,8 @@ export class UserService {
       	return ex;
       query.where.Ecg_time=t-1;
       var _get = await this.ecg3_rawRepository.findOne(query);
+      query.where.Ecg_time=t-2;
+      var _get2 = await this.ecg3_rawRepository.findOne(query);
       for (var i =0; i < reg1[1].length;i=i+4) {
         var tmp='0x'+reg1[1][i]+reg1[1][i+1]+reg1[1][i+2]+reg1[1][i+3];
         var trans=parseInt(tmp,16);
@@ -166,31 +168,41 @@ export class UserService {
         RPN_Id:param.RPN_Id,
         Result:param.Result,
         Message:param.Message,
-      }
+	}
 	await this.ecg3_rawRepository.save(raw);
 	if(_get) {
-	d1=_get.Diff_1.slice(-l).concat(d1);
-	d2=_get.Diff_2.slice(-l).concat(d2);
-	d3=_get.Diff_3.slice(-l).concat(d3);
+	d1=_get.Diff_1.concat(d1.slice(0,l));
+        d2=_get.Diff_2.concat(d2.slice(0,l));
+        d3=_get.Diff_3.concat(d3.slice(0,l));
+	  if(_get2) {
+	  d1=_get2.Diff_1.slice(-l).concat(d1);
+	  d2=_get2.Diff_2.slice(-l).concat(d2);
+	  d3=_get2.Diff_3.slice(-l).concat(d3);
+	  }
+	  else {
+	  d1=z.concat(d1);
+	  d2=z.concat(d2);
+	  d3=z.concat(d3);
+	  }
 	}
 	else {
-	d1=z.concat(d1);
-	d2=z.concat(d2);
-	d3=z.concat(d3);
+	var ndata="Not enough data";
+	console.log(ndata);
+	return ndata;
 	}
-	d1=d1.concat(z);
-	d2=d2.concat(z);
-	d3=d3.concat(z);
 	d1=fftConvolution(d1,kernel);
 	d2=fftConvolution(d2,kernel);
 	d3=fftConvolution(d3,kernel);
 	d1=d1.slice(l,-l);
 	d2=d2.slice(l,-l);
 	d3=d3.slice(l,-l);
+	//d1=d1.map(x => x * 1000);
+	//d2=d2.map(x => x * 1000);
+	//d3=d3.map(x => x * 1000);
       data={
         Data_Point_Amount: param.Data_Point_Amount,
         Date:param.Date,
-        Ecg_time:t,
+        Ecg_time:t-1,
         Current_time:Date.now(),
         Diff_1:d1,
         Diff_2:d2,
@@ -200,14 +212,12 @@ export class UserService {
         Result:param.Result,
         Message:param.Message,       
       }
-      //console.log(data);
        this.ecgrealtime3Service.createEcgrealtime3(data);
        this.userRepository.update({userId:data.Patient_CodeID} , {lasttime_3lead:data.Ecg_time});
        this.userRepository.update({userId:data.Patient_CodeID} , {lasttime_Ts:data.Current_time});
-       //console.log(data);
        var end = new Date().getTime();
        console.log(end-start);
-      var ss="Successfully";
+       var ss="Successfully";
 	return ss;
   }
 }
