@@ -1,0 +1,600 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+
+
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+
+
+
+</head>
+<body>
+<div id="chartContainer1" style="height: 370px; width: 100%;"></div>
+<br/>
+<br/>
+<br/>
+<div id="chartContainer2" style="height: 370px; width: 100%;"></div>
+<br/>
+<br/>
+<br/>
+<div id="chartContainer3" style="height: 370px; width: 100%;"></div>
+<br/>
+<br/>
+<br/>
+<div id="chartContainer4" style="height: 370px; width: 100%;"></div>
+<br/>
+<br/>
+<br/>
+<div id="chartContainer5" style="height: 370px; width: 100%;"></div>
+<br/>
+<br/>
+<br/>
+<div id="chartContainer6" style="height: 370px; width: 100%;"></div>
+<br/>
+<br/>
+<br/>
+<div id="chartContainer7" style="height: 370px; width: 100%;"></div>
+<br/>
+<br/>
+<br/>
+<div id="chartContainer8" style="height: 370px; width: 100%;"></div>
+<br/>
+<br/>
+<br/>
+<div id="chartContainer9" style="height: 370px; width: 100%;"></div>
+<br/>
+<br/>
+<br/>
+<div id="chartContainer10" style="height: 370px; width: 100%;"></div>
+<br/>
+<br/>
+<br/>
+<div id="chartContainer11" style="height: 370px; width: 100%;"></div>
+<br/>
+<br/>
+<br/>
+<div id="chartContainer12" style="height: 370px; width: 100%;"></div>
+
+
+
+
+
+
+</body>
+
+<script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+jQuery(function($)
+    { 
+	 autoPlay();
+	
+	
+        
+    } 
+); 
+
+
+
+
+function autoPlay(){
+time = setInterval(function(){
+getData()//函式內容
+//dataPoints1 = [];
+//dataPoints2 = [];
+//dataPoints3 = [];
+//dataPoints4 = [];
+//dataPoints5 = [];
+//dataPoints6 = [];
+//dataPoints7 = [];
+//dataPoints8 = [];
+//dataPoints9 = [];
+//dataPoints10 = [];
+//dataPoints11 = [];
+//dataPoints12 = [];
+},5000);
+}
+//autoPlay();//呼叫函式
+
+//function ooo() {
+
+var dataPoints1 = [];
+var dataPoints2 = [];
+var dataPoints3 = [];
+var dataPoints4 = [];
+var dataPoints5 = [];
+var dataPoints6 = [];
+var dataPoints7 = [];
+var dataPoints8 = [];
+var dataPoints9 = [];
+var dataPoints10 = [];
+var dataPoints11 = [];
+var dataPoints12 = [];
+var count = 0;
+
+var chart1 = null;
+var chart2 = null;
+var chart3 = null;
+var chart4 = null;
+var chart5 = null;
+var chart6 = null;
+var chart7 = null;
+var chart8 = null;
+var chart9 = null;
+var chart10 = null;
+var chart11 = null;
+var chart12 = null;
+var time_tmp = null;
+
+
+function addData(data1) {
+if (time_tmp==data1[0].time)
+	return ;
+time_tmp=data1[0].time;
+var d = new Date();
+	var n = d.getSeconds();
+	if(n%6 == 0)
+	{
+	count = 0;
+	
+	
+	chart1 = null;
+	chart2 = null
+	chart3 = null
+	chart4 = null
+	chart5 = null
+	chart6 = null
+	chart7 = null
+	chart8 = null
+	chart9 = null
+	chart10 = null
+	chart11 = null
+	chart12 = null
+	
+	
+	
+	
+	
+	dataPoints1 = [];
+dataPoints2 = [];
+dataPoints3 = [];
+dataPoints4 = [];
+dataPoints5 = [];
+dataPoints6 = [];
+dataPoints7 = [];
+dataPoints8 = [];
+dataPoints9 = [];
+dataPoints10 = [];
+dataPoints11 = [];
+dataPoints12 = [];
+	}
+
+var data = null;
+//dataPoints = [];
+
+//data = data1.lead12DataView[0].L1;
+
+data = data1;
+
+
+//console.log(data);
+	for (var i = 0; i < data[0].I.length; i++) {
+		dataPoints1.push({
+			x: parseFloat(count),
+			y: parseFloat(data[0].I[i])
+		});
+		
+		dataPoints2.push({
+			x: parseFloat(count),
+			y: parseFloat(data[0].II[i])
+		});
+		
+		dataPoints3.push({
+			x: parseFloat(count),
+			y: parseFloat(data[0].III[i])
+		});
+		
+		dataPoints4.push({
+			x: parseFloat(count),
+			y: parseFloat(data[0].aVR[i])
+		});
+		
+		dataPoints5.push({
+			x: parseFloat(count),
+			y: parseFloat(data[0].aVL[i])
+		});
+		
+		dataPoints6.push({
+			x: parseFloat(count),
+			y: parseFloat(data[0].aVF[i])
+		});
+		
+		dataPoints7.push({
+			x: parseFloat(count),
+			y: parseFloat(data[0].V1[i])
+		});
+		
+		dataPoints8.push({
+			x: parseFloat(count),
+			y: parseFloat(data[0].V2[i])
+		});
+		
+		dataPoints9.push({
+			x: parseFloat(count),
+			y: parseFloat(data[0].V3[i])
+		});
+		
+		dataPoints10.push({
+			x: parseFloat(count),
+			y: parseFloat(data[0].V4[i])
+		});
+		
+		dataPoints11.push({
+			x: parseFloat(count),
+			y: parseFloat(data[0].V5[i])
+		});
+		
+		dataPoints12.push({
+			x: parseFloat(count),
+			y: parseFloat(data[0].V6[i])
+		});
+		count ++;
+	}
+
+	
+	
+	
+	chart1 = new CanvasJS.Chart("chartContainer1", {
+	animationEnabled: true,
+	theme: "light2",
+	title: {
+		text: "L1"
+	},
+	axisX: {
+		//valueFormatString: "time",
+	},
+	axisY: {
+		title: "value",
+		//titleFontSize: 24,
+		includeZero: false,
+		viewportMinimum: -1,
+		viewportMaximum: 2
+	},
+	data: [{
+		type: "spline", 
+		//yValueFormatString: "$#,###.##",
+		dataPoints: dataPoints1
+	}]
+
+    });
+	
+	
+	chart2 = new CanvasJS.Chart("chartContainer2", {
+	animationEnabled: true,
+	theme: "light2",
+	title: {
+		text: "L2"
+	},
+	axisX: {
+		//valueFormatString: "time",
+	},
+	axisY: {
+		title: "value",
+		//titleFontSize: 24,
+		includeZero: false, 
+		viewportMinimum: -1,
+		viewportMaximum: 2
+	},
+	data: [{
+		type: "spline", 
+		//yValueFormatString: "$#,###.##",
+		dataPoints: dataPoints2
+	}]
+
+    });
+	
+	
+	chart3 = new CanvasJS.Chart("chartContainer3", {
+	animationEnabled: true,
+	theme: "light2",
+	title: {
+		text: "L3"
+	},
+	axisX: {
+		//valueFormatString: "time",
+	},
+	axisY: {
+		title: "value",
+		//titleFontSize: 24,
+		includeZero: false, 
+		viewportMinimum: -1,
+		viewportMaximum: 2
+	},
+	data: [{
+		type: "spline", 
+		//yValueFormatString: "$#,###.##",
+		dataPoints: dataPoints3
+	}]
+
+    });
+
+	
+	chart4 = new CanvasJS.Chart("chartContainer4", {
+	animationEnabled: true,
+	theme: "light2",
+	title: {
+		text: "aVR"
+	},
+	axisX: {
+		//valueFormatString: "time",
+	},
+	axisY: {
+		title: "value",
+		//titleFontSize: 24,
+		includeZero: false, 
+		viewportMinimum: -1,
+		viewportMaximum: 2
+	},
+	data: [{
+		type: "spline", 
+		//yValueFormatString: "$#,###.##",
+		dataPoints: dataPoints4
+	}]
+
+    });
+	
+	chart5 = new CanvasJS.Chart("chartContainer5", {
+	animationEnabled: true,
+	theme: "light2",
+	title: {
+		text: "aVL"
+	},
+	axisX: {
+		//valueFormatString: "time",
+	},
+	axisY: {
+		title: "value",
+		//titleFontSize: 24,
+		includeZero: false, 
+		viewportMinimum: -1,
+		viewportMaximum: 2
+	},
+	data: [{
+		type: "spline", 
+		//yValueFormatString: "$#,###.##",
+		dataPoints: dataPoints5
+	}]
+
+    });
+	
+	chart6 = new CanvasJS.Chart("chartContainer6", {
+	animationEnabled: true,
+	theme: "light2",
+	title: {
+		text: "aVF"
+	},
+	axisX: {
+		//valueFormatString: "time",
+	},
+	axisY: {
+		title: "value",
+		//titleFontSize: 24,
+		includeZero: false, 
+		viewportMinimum: -1,
+		viewportMaximum: 2
+	},
+	data: [{
+		type: "spline", 
+		//yValueFormatString: "$#,###.##",
+		dataPoints: dataPoints6
+	}]
+
+    });
+	
+	chart7 = new CanvasJS.Chart("chartContainer7", {
+	animationEnabled: true,
+	theme: "light2",
+	title: {
+		text: "V1"
+	},
+	axisX: {
+		//valueFormatString: "time",
+	},
+	axisY: {
+		title: "value",
+		//titleFontSize: 24,
+		includeZero: false, 
+		viewportMinimum: -1,
+		viewportMaximum: 2
+	},
+	data: [{
+		type: "spline", 
+		//yValueFormatString: "$#,###.##",
+		dataPoints: dataPoints7
+	}]
+
+    });
+	
+	chart8 = new CanvasJS.Chart("chartContainer8", {
+	animationEnabled: true,
+	theme: "light2",
+	title: {
+		text: "V2"
+	},
+	axisX: {
+		//valueFormatString: "time",
+	},
+	axisY: {
+		title: "value",
+		//titleFontSize: 24,
+		includeZero: false, 
+		viewportMinimum: -1,
+		viewportMaximum: 2
+	},
+	data: [{
+		type: "spline", 
+		//yValueFormatString: "$#,###.##",
+		dataPoints: dataPoints8
+	}]
+
+    });
+	
+	chart9 = new CanvasJS.Chart("chartContainer9", {
+	animationEnabled: true,
+	theme: "light2",
+	title: {
+		text: "V3"
+	},
+	axisX: {
+		//valueFormatString: "time",
+	},
+	axisY: {
+		title: "value",
+		//titleFontSize: 24,
+		includeZero: false, 
+		viewportMinimum: -1,
+		viewportMaximum: 2
+	},
+	data: [{
+		type: "spline", 
+		//yValueFormatString: "$#,###.##",
+		dataPoints: dataPoints9
+	}]
+
+    });
+	
+	chart10 = new CanvasJS.Chart("chartContainer10", {
+	animationEnabled: true,
+	theme: "light2",
+	title: {
+		text: "V4"
+	},
+	axisX: {
+		//valueFormatString: "time",
+	},
+	axisY: {
+		title: "value",
+		//titleFontSize: 24,
+		includeZero: false, 
+		viewportMinimum: -1,
+		viewportMaximum: 2
+	},
+	data: [{
+		type: "spline", 
+		//yValueFormatString: "$#,###.##",
+		dataPoints: dataPoints10
+	}]
+
+    });
+	
+	chart11 = new CanvasJS.Chart("chartContainer11", {
+	animationEnabled: true,
+	theme: "light2",
+	title: {
+		text: "V5"
+	},
+	axisX: {
+		//valueFormatString: "time",
+	},
+	axisY: {
+		title: "value",
+		//titleFontSize: 24,
+		includeZero: false, 
+		viewportMinimum: -1,
+		viewportMaximum: 2
+	},
+	data: [{
+		type: "spline", 
+		//yValueFormatString: "$#,###.##",
+		dataPoints: dataPoints11
+	}]
+
+    });
+	
+	chart12 = new CanvasJS.Chart("chartContainer12", {
+	animationEnabled: true,
+	theme: "light2",
+	title: {
+		text: "V6"
+	},
+	axisX: {
+		//valueFormatString: "time",
+	},
+	axisY: {
+		title: "value",
+		//titleFontSize: 24,
+		includeZero: false, 
+		viewportMinimum: -1,
+		viewportMaximum: 2
+	},
+	data: [{
+		type: "spline", 
+		//yValueFormatString: "$#,###.##",
+		dataPoints: dataPoints12
+	}]
+
+    });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    chart1.render();
+	chart2.render();
+	chart3.render();
+	chart4.render();
+	chart5.render();
+	chart6.render();
+	chart7.render();
+	chart8.render();
+	chart9.render();
+	chart10.render();
+	chart11.render();
+	chart12.render();
+	//$("#chartContainer").CanvasJSChart(options);
+
+
+}
+
+
+function getData(){
+	$.getJSON("http://140.113.170.152:8080/users/3/ecgdata12", addData);
+	//$("#chartContainer").CanvasJSChart(options);
+	}
+
+
+
+//setTimeout(function(){$.getJSON("http://localhost:5267/ECG/Test_ECG_12lead/3", addData);},1000);
+
+
+
+
+//$.getJSON("http://localhost:5267/ECG/Test_ECG_12lead/3", addData);
+
+//}
+</script>
+<!--</head>-->
+
+</html>
