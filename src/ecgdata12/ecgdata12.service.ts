@@ -11,6 +11,8 @@ export class Ecgdata12Service {
   constructor(
     @InjectRepository(Ecgdata12)
     private readonly ecgdata12Repository: Repository<Ecgdata12>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
     private readonly userService: UserService
   ) { }
     
@@ -31,31 +33,83 @@ export class Ecgdata12Service {
 		
     //  return await this.ecgdata12Repository.find({user: { userId: params.id }});
 
-    const query: any = {
-      where: {  userId : params.id },
-      order: { time: 'DESC' },
-      
-      };
-    //  if (params.to) {
-    //     query.where.time = Between(params.from, params.to);
-    //   }
+      //query.where.time = Between(params.from, params.to);
     //   else {
     //   query.where.time = MoreThan(params.from);
 
     //   //query.take = params.limit || 2304;
     //  }
 
-    if (params.to) {
-     query.where.time= {$gte:params.from , $lte:params.to};
-     query.take=sample_rate*5; 
-     }
-     else{
-      query.take=sample_rate;
-     } 
-    
+    //if (params.to) {
+
+  var total_packetaaa: any = [];   
   
-  if (Boolean((await this.userService.getUserById(params.id)).userId ))
-  var _get = await this.ecgdata12Repository.find(query);
+  //if(check.get_12leads > params.from && !params.to) {
+  //return total_packetaaa;
+  //}
+
+      const query: any = {
+      where: {  userId : params.id },
+       order: { time: 'DESC' },
+
+       };
+    if(params.to) {
+        query.where.time= {$gte:(params.from)*1000 , $lt:(params.to)*1000};
+    }
+    else if(params.from) {
+      query.where.time= {$gte:(params.from+1)*1000 , $lt:(params.from+2)*1000};
+      }
+    else{
+    //var check = await this.ecgdata12Repository.findOne(query);
+    console.log("null time");
+    var temp={
+    'userId':params.id,
+    'time':Math.floor(new Date().getTime()/1000),
+      'I':null,
+      'II':null,
+      'III':null,
+      'V1':null,
+      'V2':null,
+      'V3':null,
+      'V4':null,
+      'V5':null,
+      'V6':null,
+      'aVR':null,
+      'aVL':null,
+      'aVF':null,
+      }
+      total_packetaaa.push(temp);
+    return total_packetaaa;
+    }
+    //else{
+    //query.where.time= {$gte:(check.get_12leads)*1000 , $lt:(check.get_12leads+1)*1000 };
+      //}       
+     query.take=sample_rate;
+
+if (Boolean((await this.userService.getUserById(params.id)).userId ))
+     var _get = await this.ecgdata12Repository.find(query);
+     if(!_get[0]){
+         total_packetaaa[0]={
+    'userId':params.id,
+    'time':params.from,
+      'I':null,
+      'II':null,
+      'III':null,
+      'V1':null,
+      'V2':null,
+      'V3':null,
+      'V4':null,
+      'V5':null,
+      'V6':null,
+      'aVR':null,
+      'aVL':null,
+      'aVF':null,
+      }
+    return total_packetaaa;
+     } 
+     //await this.userRepository.update({userId:params.id} , {get_12leads:params.from+1});
+     //else if (_get[0] && !params.to && !params.from)
+     //await this.userRepository.update({userId:params.id} , {get_12leads:check.get_12leads+1});
   var cnt=0;
   var packet_cnt=0;
   var total_packet:any = [];
@@ -150,7 +204,7 @@ export class Ecgdata12Service {
     );
     total_packet[packet_cnt]={
     'userId':params.id,
-    'time':time,
+    'time':Math.floor(time/1000),
       'I':I,
       'II':II,
       'III':III,
@@ -165,7 +219,7 @@ export class Ecgdata12Service {
       'aVF':aVF, 
     } 
     
-    var total_packetaaa: any = [];
+    //  var total_packetaaa: any = [];
     var i;
     if(cnt > 0) {
      packet_cnt
@@ -178,8 +232,7 @@ export class Ecgdata12Service {
     else {
     total_packetaaa.unshift(total_packet[0]);
     }
-    
-    
+      
     
     
     

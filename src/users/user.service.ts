@@ -58,17 +58,22 @@ export class UserService {
     async getUserById(id:number): Promise<User> {
         return await this.userRepository.findOne({ 'userId': id } );
 	}
-	async getuserStatus(id:number){
+    async getuserStatus(id:number){
 	var _get=await this.userRepository.findOne({ 'userId': id } );
 	const query: any = {
       where: { 'Patient_CodeID'  : id },
       order: { 'Ecg_time': 'DESC' },
       };
       query.take=1;
-      var tmp=await this.ecg3_rawRepository.find(query);
-      var res=_get.Status+','+tmp[0].Ecg_time;
-   console.log(tmp[0].Ecg_time);
-       return res;
+      var tmp=await this.ecg3_rawRepository.findOne(query);
+      if(tmp) {
+      var res=_get.Status+','+tmp.Ecg_time;
+      return res;
+      }
+      else {
+      var res2=_get.Status+','+9999999999;
+      return res2;
+      }
   }
 
 
@@ -125,10 +130,12 @@ export class UserService {
       };
       query.where.Ecg_time=t;
       var check = await this.ecg3_rawRepository.findOne(query);
-      var ex="already exisit";
-      if(check)
-      	return ex;
-      query.where.Ecg_time=t-1;
+      var ex="already exist";
+      if(check) {
+        console.log(ex);
+	return ex;
+	}
+	query.where.Ecg_time=t-1;
       var _get = await this.ecg3_rawRepository.findOne(query);
       query.where.Ecg_time=t-2;
       var _get2 = await this.ecg3_rawRepository.findOne(query);
@@ -196,9 +203,9 @@ export class UserService {
 	d1=d1.slice(l,-l);
 	d2=d2.slice(l,-l);
 	d3=d3.slice(l,-l);
-	//d1=d1.map(x => x * 1000);
-	//d2=d2.map(x => x * 1000);
-	//d3=d3.map(x => x * 1000);
+	d1=d1.map(x => x * 1000);
+	d2=d2.map(x => x * 1000);
+	d3=d3.map(x => x * 1000);
       data={
         Data_Point_Amount: param.Data_Point_Amount,
         Date:param.Date,

@@ -27,4 +27,7 @@ export class User {
 
     @Column({ type:'int' })
     visible:number;
+
+    @Column({ type:'double' })
+    get_12leads:number;
 }

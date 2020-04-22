@@ -9,9 +9,14 @@ import { Ecgrealtime3 } from './ecgrealtime3/ecgrealtime3.entity';
 import { Ecg3_raw } from './users/ecg3_raw.entity';
 import { PhotoModule } from './photo/photo.module';
 import { Photo } from './photo/photo.entity';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
-  imports: [
+imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'dist'),
+    }),
     TypeOrmModule.forRoot({
       type: 'mongodb',
       host: '192.168.25.22',
