@@ -28,7 +28,6 @@ export class Ecgdata12Service {
     // find all
     params.from=parseInt(params.from);
     params.to=parseInt(params.to);
-
     //if (!params.from && !params.limit && !params.to)
 		
     //  return await this.ecgdata12Repository.find({user: { userId: params.id }});
@@ -51,20 +50,26 @@ export class Ecgdata12Service {
       const query: any = {
       where: {  userId : params.id },
        order: { time: 'DESC' },
-
        };
-    if(params.to) {
-        query.where.time= {$gte:(params.from)*1000 , $lt:(params.to)*1000};
+var check;       
+check = await this.userRepository.findOne({where:{userId:params.id}});
+if(!check) {
+console.log("No this user");
+return "No this user";
+}
+if(params.to) {
+query.where.time= {$gte:(params.from) , $lt:(params.to)};
+query.take=5*sample_rate;
     }
     else if(params.from) {
       query.where.time= {$gte:(params.from+1)*1000 , $lt:(params.from+2)*1000};
+     query.take=sample_rate;
       }
     else{
-    //var check = await this.ecgdata12Repository.findOne(query);
     console.log("null time");
     var temp={
     'userId':params.id,
-    'time':Math.floor(new Date().getTime()/1000),
+    'time':check.lasttime_12lead/1000,
       'I':null,
       'II':null,
       'III':null,
@@ -84,29 +89,38 @@ export class Ecgdata12Service {
     //else{
     //query.where.time= {$gte:(check.get_12leads)*1000 , $lt:(check.get_12leads+1)*1000 };
       //}       
-     query.take=sample_rate;
-
-if (Boolean((await this.userService.getUserById(params.id)).userId ))
-     var _get = await this.ecgdata12Repository.find(query);
-     if(!_get[0]){
-         total_packetaaa[0]={
-    'userId':params.id,
-    'time':params.from,
-      'I':null,
-      'II':null,
-      'III':null,
-      'V1':null,
-      'V2':null,
-      'V3':null,
-      'V4':null,
-      'V5':null,
-      'V6':null,
-      'aVR':null,
-      'aVL':null,
-      'aVF':null,
-      }
+      //query.take=sample_rate;
+     //var check;
+//if (Boolean((check = await this.userService.getUserById(params.id)).userId ))
+var _get = await this.ecgdata12Repository.find(query);
+	if(!_get[0]){
+	var t_time;
+	var last=Math.floor(check.lasttime_12lead/1000);
+	if(params.from>=last){
+	t_time=last;
+	}
+	else {
+	t_time=last-5;
+	}
+	total_packetaaa[0]={
+	'userId':params.id,
+	'time':t_time,
+        'I':null,
+        'II':null,
+        'III':null,
+        'V1':null,
+        'V2':null,
+        'V3':null,
+        'V4':null,
+        'V5':null,
+        'V6':null,
+        'aVR':null,
+        'aVL':null,
+        'aVF':null,
+        } 
     return total_packetaaa;
-     } 
+    }
+     
      //await this.userRepository.update({userId:params.id} , {get_12leads:params.from+1});
      //else if (_get[0] && !params.to && !params.from)
      //await this.userRepository.update({userId:params.id} , {get_12leads:check.get_12leads+1});
@@ -171,7 +185,7 @@ if (Boolean((await this.userService.getUserById(params.id)).userId ))
             if(cnt==sample_rate) {
               total_packet[packet_cnt]={
 	      'userId':params.id,
-	      'time':time,
+	      'time':Math.floor(time/1000),
                 'I':I,
                 'II':II,
                 'III':III,

@@ -220,8 +220,8 @@ export class UserService {
         Message:param.Message,       
       }
        this.ecgrealtime3Service.createEcgrealtime3(data);
-       this.userRepository.update({userId:data.Patient_CodeID} , {lasttime_3lead:data.Ecg_time});
-       this.userRepository.update({userId:data.Patient_CodeID} , {lasttime_Ts:data.Current_time});
+       this.userRepository.update({userId:data.Patient_CodeID} , {lasttime_3lead:data.Ecg_time, lasttime_Ts:data.Current_time});
+       //this.userRepository.update({userId:data.Patient_CodeID} , {lasttime_Ts:data.Current_time});
        var end = new Date().getTime();
        console.log(end-start);
        var ss="Successfully";
